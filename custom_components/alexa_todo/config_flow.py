@@ -6,6 +6,8 @@ which is licensed under the Apache License Version 2.0.
 It has been slightly modified to fit the needs of this integration.
 Original code: https://github.com/home-assistant/core/blob/dev/homeassistant/components/alexa_devices/config_flow.py
 """
+from pathlib import Path
+from aioamazondevices.structures import AmazonSaveDataConfig
 
 from __future__ import annotations
 
