@@ -1,5 +1,8 @@
 """Initialization of the Alexa To-do Lists integration."""
 
+from pathlib import Path
+from aioamazondevices.structures import AmazonSaveDataConfig
+
 from typing import TYPE_CHECKING
 
 from aioamazondevices.api import AmazonEchoApi
@@ -8,7 +11,7 @@ from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
 from homeassistant.helpers import aiohttp_client
 from pyalexatodo.api import AlexaToDoAPI
 
-from .const import CONF_LOGIN_DATA
+from .const import CONF_LOGIN_DATA, DOMAIN
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -38,7 +41,10 @@ async def async_setup_entry(
         session,
         entry.data[CONF_USERNAME],
         entry.data[CONF_PASSWORD],
-        entry.data[CONF_LOGIN_DATA],
+        save_data=AmazonSaveDataConfig(
+            path=Path(hass.config.path(DOMAIN)),
+        ),
+        login_data=entry.data[CONF_LOGIN_DATA],
     )
 
     alexa_todo_lists_api = AlexaToDoAPI(amazon_echo_api)
